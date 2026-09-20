@@ -1,0 +1,39 @@
+name: Compila APK
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.10.2'
+      - name: Prepara firma se configurata
+        env:
+          SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+        run: |
+          if [ -n "$SIGNING_KEY" ]; then echo "$SIGNING_KEY" | base64 --decode > app/paolo-release.jks; fi
+      - name: Compila APK
+        env:
+          KEYSTORE_FILE: paolo-release.jks
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          if [ -f app/paolo-release.jks ] && [ -n "$KEYSTORE_PASSWORD" ] && [ -n "$KEY_ALIAS" ] && [ -n "$KEY_PASSWORD" ]; then
+            gradle assembleRelease
+          else
+            echo "Firma non ancora configurata: genero un APK debug installabile"
+            gradle assembleDebug
+          fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Manutenzione-Moto-v1.0
+          path: app/build/outputs/apk/**/*.apk
