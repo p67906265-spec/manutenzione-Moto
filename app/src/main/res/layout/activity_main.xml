@@ -7,7 +7,15 @@
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
         android:text="Il diario della tua moto" android:textColor="@color/cyan" android:textSize="14sp" android:layout_marginBottom="14dp" />
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:background="@drawable/bg_card" android:padding="10dp" android:layout_marginBottom="8dp">
+        <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+            <TextView android:text="KM ATTUALI MOTO" android:textColor="@color/muted" android:textSize="11sp" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+            <TextView android:id="@+id/currentKmText" android:text="0 km" android:textColor="@color/white" android:textStyle="bold" android:textSize="22sp" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+        </LinearLayout>
+        <Button android:id="@+id/updateKmButton" android:text="AGGIORNA" android:layout_width="wrap_content" android:layout_height="48dp" />
+    </LinearLayout>
+
+    <LinearLayout android:id="@+id/summaryCard" android:layout_width="match_parent" android:layout_height="wrap_content"
         android:orientation="horizontal" android:background="@drawable/bg_card" android:padding="14dp">
         <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
             <TextView android:text="INTERVENTI" android:textColor="@color/muted" android:textSize="11sp" android:layout_width="wrap_content" android:layout_height="wrap_content" />
@@ -18,6 +26,11 @@
             <TextView android:id="@+id/totalText" android:text="€ 0,00" android:textColor="@color/cyan" android:textStyle="bold" android:textSize="25sp" android:layout_width="wrap_content" android:layout_height="wrap_content" />
         </LinearLayout>
     </LinearLayout>
+
+    <RadioGroup android:id="@+id/sectionGroup" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center">
+        <RadioButton android:id="@+id/sectionHistory" android:text="Manutenzioni" android:checked="true" android:textColor="@color/white" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+        <RadioButton android:id="@+id/sectionDeadlines" android:text="Scadenze" android:textColor="@color/white" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    </RadioGroup>
 
     <RadioGroup android:id="@+id/filterGroup" android:layout_width="match_parent" android:layout_height="wrap_content"
         android:orientation="horizontal" android:gravity="center" android:layout_marginVertical="8dp">
