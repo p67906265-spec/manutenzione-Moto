@@ -3,31 +3,36 @@ package it.paolofree.manutenzionemoto;
 import android.content.*;
 import android.database.Cursor;
 import android.database.sqlite.*;
+import org.json.*;
 import java.util.*;
 
 public class MaintenanceDb extends SQLiteOpenHelper {
-    public static class Entry {
-        long id; String part, who, date; int km; double cost;
-        Entry(long id, String part, int km, double cost, String who, String date) { this.id=id; this.part=part; this.km=km; this.cost=cost; this.who=who; this.date=date; }
-    }
+    public static class Bike { long id; String name; int km; Bike(long i,String n,int k){id=i;name=n;km=k;} @Override public String toString(){return name;} }
+    public static class Entry { long id; String part,who,date; int km; double cost; Entry(long i,String p,int k,double c,String w,String d){id=i;part=p;km=k;cost=c;who=w;date=d;} }
     public static class Deadline { long id; String title; int targetKm; boolean notified; Deadline(long i,String t,int k,boolean n){id=i;title=t;targetKm=k;notified=n;} }
-    MaintenanceDb(Context c) { super(c, "maintenance.db", null, 2); }
-    public void onCreate(SQLiteDatabase db) { db.execSQL("CREATE TABLE entries(id INTEGER PRIMARY KEY AUTOINCREMENT,part TEXT NOT NULL,km INTEGER NOT NULL,cost REAL NOT NULL,who TEXT NOT NULL,date TEXT NOT NULL)"); db.execSQL("CREATE TABLE deadlines(id INTEGER PRIMARY KEY AUTOINCREMENT,title TEXT NOT NULL,target_km INTEGER NOT NULL,notified INTEGER NOT NULL DEFAULT 0)"); }
-    public void onUpgrade(SQLiteDatabase db,int oldV,int newV) { if(oldV<2) db.execSQL("CREATE TABLE deadlines(id INTEGER PRIMARY KEY AUTOINCREMENT,title TEXT NOT NULL,target_km INTEGER NOT NULL,notified INTEGER NOT NULL DEFAULT 0)"); }
-    long save(Long id,String part,int km,double cost,String who,String date) {
-        ContentValues v=new ContentValues(); v.put("part",part);v.put("km",km);v.put("cost",cost);v.put("who",who);v.put("date",date);
-        if(id==null) return getWritableDatabase().insert("entries",null,v);
-        getWritableDatabase().update("entries",v,"id=?",new String[]{String.valueOf(id)}); return id;
+    MaintenanceDb(Context c){super(c,"maintenance.db",null,3);}
+    public void onCreate(SQLiteDatabase db){
+        db.execSQL("CREATE TABLE bikes(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT NOT NULL,current_km INTEGER NOT NULL DEFAULT 0)");
+        db.execSQL("INSERT INTO bikes(name,current_km) VALUES('La mia moto',0)");
+        db.execSQL("CREATE TABLE entries(id INTEGER PRIMARY KEY AUTOINCREMENT,part TEXT NOT NULL,km INTEGER NOT NULL,cost REAL NOT NULL,who TEXT NOT NULL,date TEXT NOT NULL,bike_id INTEGER NOT NULL DEFAULT 1)");
+        db.execSQL("CREATE TABLE deadlines(id INTEGER PRIMARY KEY AUTOINCREMENT,title TEXT NOT NULL,target_km INTEGER NOT NULL,notified INTEGER NOT NULL DEFAULT 0,bike_id INTEGER NOT NULL DEFAULT 1)");
     }
-    void delete(long id){ getWritableDatabase().delete("entries","id=?",new String[]{String.valueOf(id)}); }
-    List<Entry> all(String who){
-        List<Entry> out=new ArrayList<>(); String sel=who==null?null:"who=?"; String[] args=who==null?null:new String[]{who};
-        try(Cursor c=getReadableDatabase().query("entries",null,sel,args,null,null,"km DESC,id DESC")){
-            while(c.moveToNext()) out.add(new Entry(c.getLong(0),c.getString(1),c.getInt(2),c.getDouble(3),c.getString(4),c.getString(5)));
-        } return out;
+    public void onUpgrade(SQLiteDatabase db,int oldV,int newV){
+        if(oldV<2)db.execSQL("CREATE TABLE deadlines(id INTEGER PRIMARY KEY AUTOINCREMENT,title TEXT NOT NULL,target_km INTEGER NOT NULL,notified INTEGER NOT NULL DEFAULT 0)");
+        if(oldV<3){db.execSQL("CREATE TABLE bikes(id INTEGER PRIMARY KEY AUTOINCREMENT,name TEXT NOT NULL,current_km INTEGER NOT NULL DEFAULT 0)");db.execSQL("INSERT INTO bikes(name,current_km) VALUES('La mia moto',0)");db.execSQL("ALTER TABLE entries ADD COLUMN bike_id INTEGER NOT NULL DEFAULT 1");db.execSQL("ALTER TABLE deadlines ADD COLUMN bike_id INTEGER NOT NULL DEFAULT 1");}
     }
-    long saveDeadline(Long id,String title,int target){ ContentValues v=new ContentValues();v.put("title",title);v.put("target_km",target);v.put("notified",0);if(id==null)return getWritableDatabase().insert("deadlines",null,v);getWritableDatabase().update("deadlines",v,"id=?",new String[]{String.valueOf(id)});return id; }
+    List<Bike> bikes(){List<Bike> out=new ArrayList<>();try(Cursor c=getReadableDatabase().query("bikes",null,null,null,null,null,"id")){while(c.moveToNext())out.add(new Bike(c.getLong(0),c.getString(1),c.getInt(2)));}return out;}
+    long addBike(String name){ContentValues v=new ContentValues();v.put("name",name);v.put("current_km",0);return getWritableDatabase().insert("bikes",null,v);}
+    void renameBike(long id,String name){ContentValues v=new ContentValues();v.put("name",name);getWritableDatabase().update("bikes",v,"id=?",new String[]{String.valueOf(id)});}
+    void deleteBike(long id){SQLiteDatabase d=getWritableDatabase();d.beginTransaction();try{d.delete("entries","bike_id=?",new String[]{String.valueOf(id)});d.delete("deadlines","bike_id=?",new String[]{String.valueOf(id)});d.delete("bikes","id=?",new String[]{String.valueOf(id)});d.setTransactionSuccessful();}finally{d.endTransaction();}}
+    void updateBikeKm(long id,int km){ContentValues v=new ContentValues();v.put("current_km",km);getWritableDatabase().update("bikes",v,"id=?",new String[]{String.valueOf(id)});}
+    long save(Long id,long bikeId,String part,int km,double cost,String who,String date){ContentValues v=new ContentValues();v.put("bike_id",bikeId);v.put("part",part);v.put("km",km);v.put("cost",cost);v.put("who",who);v.put("date",date);if(id==null)return getWritableDatabase().insert("entries",null,v);getWritableDatabase().update("entries",v,"id=?",new String[]{String.valueOf(id)});return id;}
+    void delete(long id){getWritableDatabase().delete("entries","id=?",new String[]{String.valueOf(id)});}
+    List<Entry> all(long bikeId,String who){List<Entry> out=new ArrayList<>();String sel="bike_id=?"+(who==null?"":" AND who=?");String[] args=who==null?new String[]{String.valueOf(bikeId)}:new String[]{String.valueOf(bikeId),who};try(Cursor c=getReadableDatabase().query("entries",null,sel,args,null,null,"km DESC,id DESC")){while(c.moveToNext())out.add(new Entry(c.getLong(c.getColumnIndexOrThrow("id")),c.getString(c.getColumnIndexOrThrow("part")),c.getInt(c.getColumnIndexOrThrow("km")),c.getDouble(c.getColumnIndexOrThrow("cost")),c.getString(c.getColumnIndexOrThrow("who")),c.getString(c.getColumnIndexOrThrow("date"))));}return out;}
+    long saveDeadline(Long id,long bikeId,String title,int target){ContentValues v=new ContentValues();v.put("bike_id",bikeId);v.put("title",title);v.put("target_km",target);v.put("notified",0);if(id==null)return getWritableDatabase().insert("deadlines",null,v);getWritableDatabase().update("deadlines",v,"id=?",new String[]{String.valueOf(id)});return id;}
     void deleteDeadline(long id){getWritableDatabase().delete("deadlines","id=?",new String[]{String.valueOf(id)});}
     void markNotified(long id){ContentValues v=new ContentValues();v.put("notified",1);getWritableDatabase().update("deadlines",v,"id=?",new String[]{String.valueOf(id)});}
-    List<Deadline> deadlines(){List<Deadline> out=new ArrayList<>();try(Cursor c=getReadableDatabase().query("deadlines",null,null,null,null,null,"target_km ASC")){while(c.moveToNext())out.add(new Deadline(c.getLong(0),c.getString(1),c.getInt(2),c.getInt(3)==1));}return out;}
+    List<Deadline> deadlines(long bikeId){List<Deadline> out=new ArrayList<>();try(Cursor c=getReadableDatabase().query("deadlines",null,"bike_id=?",new String[]{String.valueOf(bikeId)},null,null,"target_km ASC")){while(c.moveToNext())out.add(new Deadline(c.getLong(c.getColumnIndexOrThrow("id")),c.getString(c.getColumnIndexOrThrow("title")),c.getInt(c.getColumnIndexOrThrow("target_km")),c.getInt(c.getColumnIndexOrThrow("notified"))==1));}return out;}
+    JSONObject exportJson() throws JSONException {JSONObject root=new JSONObject();root.put("format","manutenzione-moto");root.put("version",1);JSONArray b=new JSONArray(),e=new JSONArray(),d=new JSONArray();SQLiteDatabase db=getReadableDatabase();try(Cursor c=db.rawQuery("SELECT id,name,current_km FROM bikes",null)){while(c.moveToNext())b.put(new JSONObject().put("id",c.getLong(0)).put("name",c.getString(1)).put("km",c.getInt(2)));}try(Cursor c=db.rawQuery("SELECT id,part,km,cost,who,date,bike_id FROM entries",null)){while(c.moveToNext())e.put(new JSONObject().put("id",c.getLong(0)).put("part",c.getString(1)).put("km",c.getInt(2)).put("cost",c.getDouble(3)).put("who",c.getString(4)).put("date",c.getString(5)).put("bike",c.getLong(6)));}try(Cursor c=db.rawQuery("SELECT id,title,target_km,notified,bike_id FROM deadlines",null)){while(c.moveToNext())d.put(new JSONObject().put("id",c.getLong(0)).put("title",c.getString(1)).put("target",c.getInt(2)).put("notified",c.getInt(3)).put("bike",c.getLong(4)));}return root.put("bikes",b).put("entries",e).put("deadlines",d);}
+    void importJson(JSONObject root) throws Exception {if(!"manutenzione-moto".equals(root.optString("format")))throw new Exception("File non valido");JSONArray bs=root.getJSONArray("bikes"),es=root.getJSONArray("entries"),ds=root.getJSONArray("deadlines");if(bs.length()==0)throw new Exception("Backup senza moto");SQLiteDatabase db=getWritableDatabase();db.beginTransaction();try{db.delete("entries",null,null);db.delete("deadlines",null,null);db.delete("bikes",null,null);for(int i=0;i<bs.length();i++){JSONObject o=bs.getJSONObject(i);db.execSQL("INSERT INTO bikes(id,name,current_km) VALUES(?,?,?)",new Object[]{o.getLong("id"),o.getString("name"),o.getInt("km")});}for(int i=0;i<es.length();i++){JSONObject o=es.getJSONObject(i);db.execSQL("INSERT INTO entries(id,part,km,cost,who,date,bike_id) VALUES(?,?,?,?,?,?,?)",new Object[]{o.getLong("id"),o.getString("part"),o.getInt("km"),o.getDouble("cost"),o.getString("who"),o.getString("date"),o.getLong("bike")});}for(int i=0;i<ds.length();i++){JSONObject o=ds.getJSONObject(i);db.execSQL("INSERT INTO deadlines(id,title,target_km,notified,bike_id) VALUES(?,?,?,?,?)",new Object[]{o.getLong("id"),o.getString("title"),o.getInt("target"),o.getInt("notified"),o.getLong("bike")});}db.setTransactionSuccessful();}finally{db.endTransaction();}}
 }
