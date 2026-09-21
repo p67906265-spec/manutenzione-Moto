@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainRoot"
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:orientation="vertical" android:background="@color/navy" android:padding="16dp" android:fitsSystemWindows="true">
 
@@ -10,15 +11,16 @@
         <ImageButton android:id="@+id/settingsButton" android:layout_width="48dp" android:layout_height="48dp" android:src="@drawable/ic_settings" android:contentDescription="Impostazioni" android:background="@drawable/bg_circle_button" android:padding="12dp" android:tint="@color/white" />
     </LinearLayout>
 
-    <FrameLayout android:layout_width="match_parent" android:layout_height="150dp" android:background="@drawable/bg_hero" android:layout_marginBottom="8dp">
-        <ImageView android:layout_width="230dp" android:layout_height="130dp" android:layout_gravity="end|center_vertical" android:src="@drawable/ic_motorcycle_hero" android:alpha="0.18" android:contentDescription="@null" />
+    <FrameLayout android:id="@+id/heroPanel" android:layout_width="match_parent" android:layout_height="170dp" android:background="@drawable/bg_hero" android:clipToOutline="true" android:layout_marginBottom="8dp">
+        <ImageView android:id="@+id/bikeBackgroundImage" android:layout_width="match_parent" android:layout_height="match_parent" android:src="@drawable/moto_africa_twin" android:scaleType="centerCrop" android:alpha="0.58" android:contentDescription="@null" />
+        <View android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/bg_hero_overlay" />
         <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center_vertical" android:padding="20dp">
             <TextView android:text="MOTO ATTIVA" android:textColor="@color/cyan" android:textStyle="bold" android:textSize="11sp" android:letterSpacing="0.14" android:layout_width="wrap_content" android:layout_height="wrap_content" />
-            <TextView android:id="@+id/activeBikeText" android:text="La mia moto" android:textColor="@color/white" android:textStyle="bold" android:textSize="25sp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" />
+            <TextView android:id="@+id/activeBikeText" android:text="La mia moto" android:textColor="@color/white" android:textStyle="bold" android:textSize="25sp" android:shadowColor="#CC000000" android:shadowDx="0" android:shadowDy="2" android:shadowRadius="4" android:layout_width="wrap_content" android:layout_height="wrap_content" android:maxLines="1" />
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:layout_marginTop="10dp">
                 <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
                     <TextView android:text="CHILOMETRAGGIO" android:textColor="@color/muted" android:textSize="10sp" android:layout_width="wrap_content" android:layout_height="wrap_content" />
-                    <TextView android:id="@+id/currentKmText" android:text="0 km" android:textColor="@color/white" android:textStyle="bold" android:textSize="25sp" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+                    <TextView android:id="@+id/currentKmText" android:text="0 km" android:textColor="@color/white" android:textStyle="bold" android:textSize="25sp" android:shadowColor="#CC000000" android:shadowDx="0" android:shadowDy="2" android:shadowRadius="4" android:layout_width="wrap_content" android:layout_height="wrap_content" />
                 </LinearLayout>
                 <Button android:id="@+id/updateKmButton" android:text="AGGIORNA" android:layout_width="wrap_content" android:layout_height="46dp" />
             </LinearLayout>
