@@ -29,6 +29,8 @@ La versione 2.0 introduce database con date ordinabili, scadenze ricorrenti a km
 
 La versione 2.1 rende omogenei i pulsanti Aggiorna e Nuovo intervento con lo stile futuristico dei controlli segmentati: vetro scuro, bordo ciano, angoli arrotondati e tocco magenta.
 
+La versione 2.2 aggiunge tre sfondi moto coordinati: BMW R 1300 GS, Suzuki V-Strom e Ducati Multistrada.
+
 Tocco su una voce: modifica. Pressione lunga: elimina.
 
 Per gli APK firmati permanenti configurare una sola volta i quattro GitHub Secrets: `SIGNING_KEY` (keystore in Base64), `KEYSTORE_PASSWORD`, `KEY_ALIAS`, `KEY_PASSWORD`. Conservare anche una copia privata del file keystore e delle password: senza la stessa chiave non è possibile aggiornare l'app già installata.
