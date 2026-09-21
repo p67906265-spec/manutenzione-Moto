@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mainRoot"
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:orientation="vertical" android:background="@color/navy" android:padding="16dp" android:fitsSystemWindows="true">
@@ -22,7 +23,21 @@
                     <TextView android:text="CHILOMETRAGGIO" android:textColor="@color/muted" android:textSize="10sp" android:layout_width="wrap_content" android:layout_height="wrap_content" />
                     <it.paolofree.manutenzionemoto.HudOdometerView android:id="@+id/currentKmText" android:text="0 km" android:textColor="@color/white" android:textStyle="bold" android:textSize="22sp" android:fontFamily="sans-serif-condensed" android:layout_width="150dp" android:layout_height="90dp" />
                 </LinearLayout>
-                <Button android:id="@+id/updateKmButton" android:text="AGGIORNA" android:textColor="@color/white" android:textStyle="bold" android:layout_width="wrap_content" android:layout_height="46dp" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/updateKmButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:minWidth="118dp"
+                    android:text="AGGIORNA"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:textSize="14sp"
+                    android:letterSpacing="0.08"
+                    app:backgroundTint="#99162735"
+                    app:cornerRadius="24dp"
+                    app:strokeColor="@color/cyan"
+                    app:strokeWidth="1dp"
+                    app:rippleColor="#55FF40B4" />
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>
@@ -41,5 +56,19 @@
     <TextView android:id="@+id/emptyText" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:gravity="center" android:text="Nessun intervento registrato\nPremi + per iniziare" android:textColor="@color/muted" android:textSize="16sp" />
     <ListView android:id="@+id/list" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:divider="@android:color/transparent" android:dividerHeight="8dp" android:visibility="gone" />
 
-    <Button android:id="@+id/addButton" android:layout_width="match_parent" android:layout_height="56dp" android:text="＋  NUOVO INTERVENTO" android:textColor="@color/white" android:textStyle="bold" android:textSize="16sp" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/addButton"
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:layout_marginTop="6dp"
+        android:text="＋  NUOVO INTERVENTO"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:letterSpacing="0.08"
+        app:backgroundTint="#99162735"
+        app:cornerRadius="28dp"
+        app:strokeColor="@color/cyan"
+        app:strokeWidth="1dp"
+        app:rippleColor="#55FF40B4" />
 </LinearLayout>
