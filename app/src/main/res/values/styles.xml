@@ -1,5 +1,5 @@
 <resources>
-    <style name="Theme.ManutenzioneMoto" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.ManutenzioneMoto" parent="Theme.MaterialComponents.NoActionBar">
         <item name="colorPrimary">@color/blue</item>
         <item name="colorSecondary">@color/cyan</item>
         <item name="android:fontFamily">sans</item>

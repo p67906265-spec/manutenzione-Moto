@@ -1,8 +1,10 @@
 <resources>
-    <color name="navy">#071827</color>
-    <color name="blue">#1687D9</color>
-    <color name="cyan">#4BC4FF</color>
-    <color name="card">#132C3E</color>
+    <color name="navy">#05080F</color>
+    <color name="blue">#006EA8</color>
+    <color name="cyan">#40EBFF</color>
+    <color name="magenta">#FF40B4</color>
+    <color name="amber">#FFAE3C</color>
+    <color name="card">#B3162735</color>
     <color name="white">#F5FAFF</color>
     <color name="muted">#9CB3C3</color>
     <color name="danger">#FF6B6B</color>

@@ -25,6 +25,8 @@ La versione 1.8 forza direttamente i colori dei pulsanti dopo l'apertura di ogni
 
 La versione 1.9 rende obbligatoria la firma permanente nella compilazione GitHub: se manca uno dei quattro secret, il workflow si ferma senza produrre per errore un APK con firma diversa. Prima della pubblicazione viene inoltre verificata la firma dell'APK release.
 
+La versione 2.0 introduce database con date ordinabili, scadenze ricorrenti a km e mesi, preavvisi, chilometri automatici, foto scontrino, sfondo personale, statistiche annuali, export PDF/CSV, menu visibile sulle card, opzione schermo acceso e interfaccia HUD futuristica con splash al neon.
+
 Tocco su una voce: modifica. Pressione lunga: elimina.
 
 Per gli APK firmati permanenti configurare una sola volta i quattro GitHub Secrets: `SIGNING_KEY` (keystore in Base64), `KEYSTORE_PASSWORD`, `KEY_ALIAS`, `KEY_PASSWORD`. Conservare anche una copia privata del file keystore e delle password: senza la stessa chiave non è possibile aggiornare l'app già installata.
