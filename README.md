@@ -33,6 +33,8 @@ La versione 2.2 aggiunge tre sfondi moto coordinati: BMW R 1300 GS, Suzuki V-Str
 
 La versione 2.3 aggiunge la selezione della lingua nelle Impostazioni: italiano, inglese, francese, tedesco, spagnolo e portoghese.
 
+La versione 2.4 rimuove l'opzione Schermo sempre acceso: l'app segue sempre il normale spegnimento dello schermo per ridurre il consumo della batteria.
+
 Tocco su una voce: modifica. Pressione lunga: elimina.
 
 Per gli APK firmati permanenti configurare una sola volta i quattro GitHub Secrets: `SIGNING_KEY` (keystore in Base64), `KEYSTORE_PASSWORD`, `KEY_ALIAS`, `KEY_PASSWORD`. Conservare anche una copia privata del file keystore e delle password: senza la stessa chiave non è possibile aggiornare l'app già installata.
