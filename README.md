@@ -19,6 +19,8 @@ La versione 1.5 aggiunge la scelta dello sfondo moto: Africa Twin originale rica
 
 La versione 1.6 aggiunge una vera animazione di apertura con logo, titolo e dissolvenza verso il pannello della moto.
 
+La versione 1.7 corregge il contrasto delle scritte sui pulsanti principali e nei pannelli di conferma.
+
 Tocco su una voce: modifica. Pressione lunga: elimina.
 
 Per APK firmati permanenti configurare i quattro GitHub Secrets: `SIGNING_KEY` (keystore in Base64), `KEYSTORE_PASSWORD`, `KEY_ALIAS`, `KEY_PASSWORD`.

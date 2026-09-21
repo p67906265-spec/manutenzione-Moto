@@ -9,6 +9,8 @@
         <item name="android:windowBackground">@color/navy</item>
         <item name="android:alertDialogTheme">@style/Theme.ManutenzioneMoto.Dialog</item>
         <item name="materialAlertDialogTheme">@style/Theme.ManutenzioneMoto.Dialog</item>
+        <item name="android:buttonStyle">@style/Widget.ManutenzioneMoto.Button</item>
+        <item name="buttonStyle">@style/Widget.ManutenzioneMoto.Button</item>
     </style>
 
     <style name="Theme.ManutenzioneMoto.Dialog" parent="Theme.MaterialComponents.Dialog.Alert">
@@ -21,5 +23,17 @@
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">@color/muted</item>
         <item name="android:navigationBarColor">@color/navy</item>
+        <item name="buttonBarPositiveButtonStyle">@style/Widget.ManutenzioneMoto.DialogButton</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Widget.ManutenzioneMoto.DialogButton</item>
+        <item name="buttonBarNeutralButtonStyle">@style/Widget.ManutenzioneMoto.DialogButton</item>
+    </style>
+
+    <style name="Widget.ManutenzioneMoto.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Widget.ManutenzioneMoto.DialogButton" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">@color/cyan</item>
+        <item name="android:textStyle">bold</item>
     </style>
 </resources>

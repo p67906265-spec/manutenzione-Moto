@@ -35,5 +35,5 @@ jobs:
           fi
       - uses: actions/upload-artifact@v4
         with:
-          name: Manutenzione-Moto-v1.6
+          name: Manutenzione-Moto-v1.7
           path: app/build/outputs/apk/**/*.apk
