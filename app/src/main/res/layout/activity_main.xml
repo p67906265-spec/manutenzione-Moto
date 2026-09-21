@@ -22,7 +22,7 @@
                     <TextView android:text="CHILOMETRAGGIO" android:textColor="@color/muted" android:textSize="10sp" android:layout_width="wrap_content" android:layout_height="wrap_content" />
                     <TextView android:id="@+id/currentKmText" android:text="0 km" android:textColor="@color/white" android:textStyle="bold" android:textSize="25sp" android:shadowColor="#CC000000" android:shadowDx="0" android:shadowDy="2" android:shadowRadius="4" android:layout_width="wrap_content" android:layout_height="wrap_content" />
                 </LinearLayout>
-                <Button android:id="@+id/updateKmButton" android:text="AGGIORNA" android:layout_width="wrap_content" android:layout_height="46dp" />
+                <Button android:id="@+id/updateKmButton" android:text="AGGIORNA" android:textColor="@color/white" android:textStyle="bold" android:layout_width="wrap_content" android:layout_height="46dp" />
             </LinearLayout>
         </LinearLayout>
     </FrameLayout>
@@ -41,5 +41,5 @@
     <TextView android:id="@+id/emptyText" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:gravity="center" android:text="Nessun intervento registrato\nPremi + per iniziare" android:textColor="@color/muted" android:textSize="16sp" />
     <ListView android:id="@+id/list" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:divider="@android:color/transparent" android:dividerHeight="8dp" android:visibility="gone" />
 
-    <Button android:id="@+id/addButton" android:layout_width="match_parent" android:layout_height="56dp" android:text="＋  NUOVO INTERVENTO" android:textStyle="bold" android:textSize="16sp" />
+    <Button android:id="@+id/addButton" android:layout_width="match_parent" android:layout_height="56dp" android:text="＋  NUOVO INTERVENTO" android:textColor="@color/white" android:textStyle="bold" android:textSize="16sp" />
 </LinearLayout>
