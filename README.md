@@ -23,6 +23,10 @@ La versione 1.7 corregge il contrasto delle scritte sui pulsanti principali e ne
 
 La versione 1.8 forza direttamente i colori dei pulsanti dopo l'apertura di ogni pannello, compatibile anche con temi Huawei che ignorano lo stile generale.
 
+La versione 1.9 rende obbligatoria la firma permanente nella compilazione GitHub: se manca uno dei quattro secret, il workflow si ferma senza produrre per errore un APK con firma diversa. Prima della pubblicazione viene inoltre verificata la firma dell'APK release.
+
 Tocco su una voce: modifica. Pressione lunga: elimina.
 
-Per APK firmati permanenti configurare i quattro GitHub Secrets: `SIGNING_KEY` (keystore in Base64), `KEYSTORE_PASSWORD`, `KEY_ALIAS`, `KEY_PASSWORD`.
+Per gli APK firmati permanenti configurare una sola volta i quattro GitHub Secrets: `SIGNING_KEY` (keystore in Base64), `KEYSTORE_PASSWORD`, `KEY_ALIAS`, `KEY_PASSWORD`. Conservare anche una copia privata del file keystore e delle password: senza la stessa chiave non è possibile aggiornare l'app già installata.
+
+Da Termux è possibile creare la chiave e inserire automaticamente i quattro secret eseguendo `bash configura-firma-termux.sh`. Il backup privato della chiave viene salvato nella cartella Download/Firma_Manutenzione_Moto del telefono e non deve mai essere caricato nel repository.

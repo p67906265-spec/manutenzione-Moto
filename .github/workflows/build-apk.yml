@@ -15,25 +15,29 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.10.2'
-      - name: Prepara firma se configurata
+      - name: Verifica i quattro punti della firma permanente
         env:
           SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
-          if [ -n "$SIGNING_KEY" ]; then echo "$SIGNING_KEY" | base64 --decode > app/paolo-release.jks; fi
-      - name: Compila APK
+          test -n "$SIGNING_KEY" || { echo "Manca il secret SIGNING_KEY"; exit 1; }
+          test -n "$KEYSTORE_PASSWORD" || { echo "Manca il secret KEYSTORE_PASSWORD"; exit 1; }
+          test -n "$KEY_ALIAS" || { echo "Manca il secret KEY_ALIAS"; exit 1; }
+          test -n "$KEY_PASSWORD" || { echo "Manca il secret KEY_PASSWORD"; exit 1; }
+          echo "$SIGNING_KEY" | base64 --decode > app/paolo-release.jks
+          keytool -list -keystore app/paolo-release.jks -storepass "$KEYSTORE_PASSWORD" -alias "$KEY_ALIAS" >/dev/null
+      - name: Compila APK release con firma permanente
         env:
           KEYSTORE_FILE: paolo-release.jks
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-        run: |
-          if [ -f app/paolo-release.jks ] && [ -n "$KEYSTORE_PASSWORD" ] && [ -n "$KEY_ALIAS" ] && [ -n "$KEY_PASSWORD" ]; then
-            gradle assembleRelease
-          else
-            echo "Firma non ancora configurata: genero un APK debug installabile"
-            gradle assembleDebug
-          fi
+        run: gradle assembleRelease
+      - name: Controlla la firma dell'APK
+        run: $ANDROID_HOME/build-tools/35.0.0/apksigner verify --verbose app/build/outputs/apk/release/app-release.apk
       - uses: actions/upload-artifact@v4
         with:
-          name: Manutenzione-Moto-v1.8
-          path: app/build/outputs/apk/**/*.apk
+          name: Manutenzione-Moto-v1.9-firmata
+          path: app/build/outputs/apk/release/app-release.apk
