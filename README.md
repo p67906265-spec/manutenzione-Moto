@@ -31,6 +31,8 @@ La versione 2.1 rende omogenei i pulsanti Aggiorna e Nuovo intervento con lo sti
 
 La versione 2.2 aggiunge tre sfondi moto coordinati: BMW R 1300 GS, Suzuki V-Strom e Ducati Multistrada.
 
+La versione 2.3 aggiunge la selezione della lingua nelle Impostazioni: italiano, inglese, francese, tedesco, spagnolo e portoghese.
+
 Tocco su una voce: modifica. Pressione lunga: elimina.
 
 Per gli APK firmati permanenti configurare una sola volta i quattro GitHub Secrets: `SIGNING_KEY` (keystore in Base64), `KEYSTORE_PASSWORD`, `KEY_ALIAS`, `KEY_PASSWORD`. Conservare anche una copia privata del file keystore e delle password: senza la stessa chiave non è possibile aggiornare l'app già installata.
