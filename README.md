@@ -25,7 +25,7 @@ La versione 1.8 forza direttamente i colori dei pulsanti dopo l'apertura di ogni
 
 La versione 1.9 rende obbligatoria la firma permanente nella compilazione GitHub: se manca uno dei quattro secret, il workflow si ferma senza produrre per errore un APK con firma diversa. Prima della pubblicazione viene inoltre verificata la firma dell'APK release.
 
-L'app include database con date ordinabili, scadenze ricorrenti a km e mesi, preavvisi, chilometri automatici, foto scontrino, sfondo personale, statistiche annuali, export PDF/CSV, menu visibile sulle card e interfaccia HUD futuristica con splash al neon multilingua.
+L'app include database con date ordinabili, piano manutenzione personalizzabile per moto, scadenze ricorrenti a km e anni, preavvisi, chilometri automatici, foto scontrino, sfondo personale, statistiche annuali, export PDF/CSV, menu visibile sulle card e interfaccia HUD futuristica con splash al neon multilingua.
 
 La versione 2.1 rende omogenei i pulsanti Aggiorna e Nuovo intervento con lo stile futuristico dei controlli segmentati: vetro scuro, bordo ciano, angoli arrotondati e tocco magenta.
 
